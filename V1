@@ -1,0 +1,78 @@
+import React from 'react';
+import { useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { ChevronRight, Home, ArrowLeft } from 'lucide-react';
+
+const InfoApp = () => {
+  const [currentPage, setCurrentPage] = useState('home');
+
+  const pages = {
+    home: {
+      title: 'Welcome to InfoApp',
+      content: [
+        { title: 'About Us', id: 'about' },
+        { title: 'Our Services', id: 'services' },
+        { title: 'Contact Information', id: 'contact' }
+      ]
+    },
+    about: {
+      title: 'About Us',
+      content: 'We are a company dedicated to providing excellent service. Our team has been working in this industry for over 10 years.'
+    },
+    services: {
+      title: 'Our Services',
+      content: 'We offer a wide range of services including consultation, implementation, and support.'
+    },
+    contact: {
+      title: 'Contact Information',
+      content: 'Email: info@example.com\nPhone: (555) 123-4567\nAddress: 123 Main Street'
+    }
+  };
+
+  const navigateTo = (pageId) => {
+    setCurrentPage(pageId);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-4">
+      <Card className="max-w-md mx-auto">
+        <CardContent className="p-6">
+          {currentPage !== 'home' && (
+            <button
+              onClick={() => navigateTo('home')}
+              className="mb-4 flex items-center text-blue-600 hover:text-blue-800"
+            >
+              <ArrowLeft className="w-4 h-4 mr-1" />
+              Back to Home
+            </button>
+          )}
+
+          <h1 className="text-2xl font-bold mb-6">
+            {pages[currentPage].title}
+          </h1>
+
+          {currentPage === 'home' ? (
+            <nav>
+              {pages.home.content.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => navigateTo(item.id)}
+                  className="w-full text-left p-3 mb-2 flex items-center justify-between rounded-lg hover:bg-gray-100 border"
+                >
+                  {item.title}
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              ))}
+            </nav>
+          ) : (
+            <p className="whitespace-pre-line">
+              {pages[currentPage].content}
+            </p>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+export default InfoApp;
